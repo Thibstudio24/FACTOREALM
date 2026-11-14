@@ -1,9 +1,13 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"os"
+	"os/signal"
+
+	"github.com/Thibstudio24/FACTOREALM/backend/internal/localapi"
 )
 
 const developmentVersion = "dev"
@@ -13,8 +17,12 @@ const usage = `Factorealm — socle technique
 Utilisation :
   factorealm version
   factorealm help
+  factorealm serve
 
-Aucune fonction métier n'est disponible dans ce premier lot.
+La commande serve démarre une API technique sur 127.0.0.1:8080.
+Utilisez Ctrl+C pour l'arrêter.
+
+Aucune fonction métier n'est disponible dans ce premier socle.
 `
 
 func main() {
@@ -40,6 +48,8 @@ func run(args []string, stdout io.Writer, stderr io.Writer) int {
 			stderr,
 			"Factorealm "+developmentVersion+"\n",
 		)
+	case "serve":
+		return runServer(stdout, stderr)
 	default:
 		fmt.Fprintf(
 			stderr,
@@ -48,6 +58,18 @@ func run(args []string, stdout io.Writer, stderr io.Writer) int {
 		)
 		return 2
 	}
+}
+
+func runServer(stdout io.Writer, stderr io.Writer) int {
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
+	defer stop()
+
+	if err := localapi.Run(ctx, 8080, stdout); err != nil {
+		fmt.Fprintf(stderr, "Erreur serveur : %v\n", err)
+		return 1
+	}
+
+	return writeOutput(stdout, stderr, "Serveur arrêté.\n")
 }
 
 func writeOutput(stdout io.Writer, stderr io.Writer, text string) int {
