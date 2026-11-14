@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <title>Factorealm — Socle technique</title>
+    <style>
+      :root {
+        font-family: system-ui, sans-serif;
+        color: #172536;
+        background: #f3f5f8;
+        line-height: 1.6;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      main {
+        width: min(100% - 2rem, 48rem);
+        margin: 3rem auto;
+      }
+
+      h1 {
+        margin-bottom: 0.25rem;
+        font-size: 2.2rem;
+        line-height: 1.2;
+      }
+
+      h2 {
+        margin-top: 0;
+      }
+
+      .subtitle {
+        margin-top: 0;
+      }
+
+      .panel {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        border: 1px solid #c5cfdb;
+        border-radius: 0.75rem;
+        background: #ffffff;
+      }
+
+      button {
+        padding: 0.75rem 1rem;
+        border: 2px solid transparent;
+        border-radius: 0.4rem;
+        font: inherit;
+        font-weight: 600;
+        color: #ffffff;
+        background: #174c7e;
+        cursor: pointer;
+      }
+
+      button:hover:not(:disabled) {
+        background: #10385e;
+      }
+
+      button:focus-visible {
+        outline: 3px solid #172536;
+        outline-offset: 3px;
+      }
+
+      button:disabled {
+        cursor: wait;
+        background: #52677b;
+      }
+
+      .result {
+        min-height: 3.2rem;
+        margin-bottom: 0;
+        overflow-wrap: anywhere;
+      }
+
+      footer {
+        margin-top: 2rem;
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 30rem) {
+        main {
+          margin-top: 1.5rem;
+        }
+
+        .panel {
+          padding: 1rem;
+        }
+
+        button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      Cette interface technique nécessite JavaScript.
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
