@@ -1,21 +1,13 @@
 import { StrictMode, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { checkHealth } from "./health";
+import type { HealthResult } from "./health";
 
 type CheckState =
   | { kind: "idle" }
   | { kind: "checking" }
   | { kind: "success"; checkedAt: string }
-  | { kind: "unavailable"; detail: string }
-  | { kind: "unexpected"; detail: string };
-
-function isHealthResponse(value: unknown): value is { status: "ok" } {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    "status" in value &&
-    value.status === "ok"
-  );
-}
+  | Exclude<HealthResult, { kind: "success" }>;
 
 function describeState(state: CheckState): string {
   switch (state.kind) {
@@ -36,7 +28,7 @@ function App() {
   const [state, setState] = useState<CheckState>({ kind: "idle" });
   const requestInProgress = useRef(false);
 
-  async function checkHealth(): Promise<void> {
+  async function handleHealthCheck(): Promise<void> {
     if (requestInProgress.current) {
       return;
     }
@@ -44,77 +36,23 @@ function App() {
     requestInProgress.current = true;
     setState({ kind: "checking" });
 
-    const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), 5000);
-
     try {
-      const response = await fetch("/healthz", {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
-        cache: "no-store",
-        credentials: "omit",
-        redirect: "error",
-        signal: controller.signal,
-      });
+      const result = await checkHealth();
 
-      if (!response.ok) {
+      if (result.kind === "success") {
         setState({
-          kind: "unavailable",
-          detail: `le serveur ou le relais a renvoyé HTTP ${response.status}.`,
+          kind: "success",
+          checkedAt: new Date().toLocaleTimeString("fr-FR"),
         });
-        return;
+      } else {
+        setState(result);
       }
-
-      const contentType = response.headers.get("Content-Type");
-      const mediaType = contentType?.split(";")[0]?.trim().toLowerCase();
-
-      if (mediaType !== "application/json") {
-        setState({
-          kind: "unexpected",
-          detail: "le contenu reçu n’est pas annoncé comme du JSON.",
-        });
-        return;
-      }
-
-      let body: unknown;
-
-      try {
-        body = await response.json();
-      } catch (error: unknown) {
-        if (controller.signal.aborted || error instanceof TypeError) {
-          throw error;
-        }
-
-        setState({
-          kind: "unexpected",
-          detail: "le contenu reçu n’est pas un JSON valide.",
-        });
-        return;
-      }
-
-      if (!isHealthResponse(body)) {
-        setState({
-          kind: "unexpected",
-          detail: "le JSON reçu ne contient pas le statut attendu.",
-        });
-        return;
-      }
-
-      setState({
-        kind: "success",
-        checkedAt: new Date().toLocaleTimeString("fr-FR"),
-      });
     } catch {
       setState({
-        kind: "unavailable",
-        detail: controller.signal.aborted
-          ? "le délai maximal de cinq secondes a été dépassé."
-          : "la requête n’a pas pu aboutir. Vérifiez les serveurs Go et Vite.",
+        kind: "unexpected",
+        detail: "une erreur interne a empêché la vérification.",
       });
     } finally {
-      window.clearTimeout(timeout);
       requestInProgress.current = false;
     }
   }
@@ -137,7 +75,7 @@ function App() {
         <button
           type="button"
           onClick={() => {
-            void checkHealth();
+            void handleHealthCheck();
           }}
           disabled={state.kind === "checking"}
         >
