@@ -1,254 +1,229 @@
 # Limites connues
 
-## Statut général
+## Statut
 
-Factorealm dispose d'un socle technique Go, pas d'une application métier.
+Factorealm est un socle technique en développement.
 
-Les lots 1.1 et 1.2 ont été validés selon les retours de l'utilisateur
-sur son poste Windows.
+Il comprend un serveur Go local et une interface React.
+Il ne contient aucune fonctionnalité métier utilisable en production.
 
-Aucune aptitude à la production n'est annoncée.
+## Fonctionnement confirmé
 
-## Ce qui existe
+Selon les sorties et retours de l'utilisateur :
 
-- Exécutable Go.
-- Aide et version de développement.
-- Refus des commandes invalides.
-- Serveur local démarré par la commande serve.
-- Route GET /healthz.
-- Délais HTTP explicites.
-- Arrêt contrôlé sur Ctrl+C.
-- Tests automatisés des commandes et du serveur.
+- compilation Windows du backend ;
+- tests Go et go vet ;
+- réponse HTTP locale ;
+- installation des dépendances frontend ;
+- vérification TypeScript ;
+- construction Vite ;
+- 15 tests du module HTTP ;
+- 6 tests du composant React ;
+- utilisation manuelle de l'interface avec l'API.
 
-Le retour HTTP transmis confirme :
+Les 21 résultats frontend ont été transmis.
+Les résultats détaillés des tests Go n'ont pas été transmis.
 
-- statut 200 ;
-- contenu JSON ;
-- directive Cache-Control: no-store ;
-- corps {"status":"ok"}.
+Aucune commande n'a été exécutée par l'assistant.
 
-Les sorties détaillées de go test, go vet et de compilation
-n'ont pas été transmises. Leur réussite a été rapportée.
+## Réseau et distribution
 
-## Limites du serveur technique
-
-- Écoute fixe sur 127.0.0.1:8080.
-- Pas d'accès distant prévu.
-- Pas de configuration de port via la commande.
-- Pas de TLS.
-- Pas d'authentification.
-- Pas de sessions ni de permissions.
-- Pas de configuration CORS.
-- Pas de base de données.
-- Pas de données ou de routes métier.
+- Go écoute sur 127.0.0.1:8080.
+- Vite écoute sur 127.0.0.1:5173.
+- Le relais /healthz appartient à la configuration de développement.
+- Pas de TLS, authentification ou permissions.
+- Pas de configuration CORS permissive.
 - Pas d'installation comme service.
+- Pas de distribution intégrée du frontend construit.
 
-La boucle locale n'est pas une frontière d'autorisation suffisante
-pour les futures opérations sensibles.
+Ne pas exposer les serveurs de développement sur Internet.
+Ne pas élargir leur adresse d'écoute sans conception explicite.
 
-La route de santé vérifie seulement que le processus HTTP répond.
-Elle ne vérifie ni stockage, ni chiffrement, ni sauvegarde.
+La boucle locale ne constitue pas une autorisation.
 
-Ne pas exposer ce prototype sur Internet.
+## Santé technique
 
-## Limites des tests actuels
+La route /healthz indique uniquement que le processus répond.
 
-Les tests couvrent notamment :
+Elle ne vérifie aucun stockage, chiffrement, compte ou système de sauvegarde.
 
-- commandes et erreurs d'arguments ;
-- réponses HTTP ;
-- configuration des délais ;
-- port déjà occupé ;
-- contexte annulé avant démarrage ;
-- panne d'écriture simulée ;
-- cycle de vie avec requête HTTP locale.
+L'écran affiche le résultat du dernier contrôle manuel.
+Il ne surveille pas continuellement le serveur.
 
-Ne sont pas encore testés :
+## Limites des tests
 
-- clients lents et expiration réelle des délais ;
-- arrêt avec requêtes longues en cours ;
-- comportement prolongé sous charge ;
+Les tests frontend utilisent des réponses simulées.
+Les tests React utilisent jsdom.
+
+Ils ne remplacent pas :
+
+- un navigateur réel ;
+- un audit d'accessibilité ;
+- des essais clavier et lecteur d'écran complets ;
+- des tests réseau de bout en bout ;
+- des tests de charge.
+
+Non testés spécifiquement :
+
+- démontage du composant pendant une requête ;
+- délai expirant pendant une lecture HTTP partielle réelle ;
+- clients HTTP lents côté Go ;
+- arrêt Go avec requêtes longues en cours ;
 - installation comme service ;
-- versions différentes de Windows ;
-- Linux et ARM64 ;
-- sécurité métier ou réglementaire.
+- comportement prolongé sous charge.
 
-Le test de configuration des délais ne prouve pas leur comportement
-dans toutes les conditions réseau.
+Les tests du délai côté frontend ne prouvent pas tous les comportements
+possibles d'un navigateur ou d'un réseau réel.
 
-## Environnement
+## Plateformes
 
-Environnement rapporté :
+Environnement validé limité au poste de développement :
 
 - Windows 11 Professionnel, build 26300 ;
-- Go 1.27.3, windows/amd64 ;
-- PowerShell 5.1.
+- windows/amd64 ;
+- Go 1.27.3 ;
+- Node.js 22.23.2 ;
+- npm 12.2.2.
 
-Les VM Windows et Linux sont réservées à des tests ultérieurs.
+Les VM sont réservées aux essais ultérieurs.
 
-La compatibilité de Node.js et npm avec la future pile frontend
-n'a pas encore été vérifiée.
+Aucun résultat Linux ou ARM64.
+Aucun installateur .exe ou paquet .deb.
 
-Rust, Cargo, PostgreSQL et CMake n'étaient pas trouvés dans le PATH
-lors du diagnostic. Cela ne prouve pas leur absence de la machine.
+Le support Windows 10 reste à clarifier.
+Aucun contournement par dépendance obsolète n'est autorisé.
 
-## Documentation et dépôt
+## Sécurité et données
 
-- Nom exact du cahier des charges dans docs à confirmer.
-- Branche locale à confirmer.
-- Synchronisation du dépôt distant non vérifiée.
-- Références de commits non transmises.
-- Résultat détaillé du contrôle des 62 identifiants non transmis.
-- Documents de sécurité présents, mais propositions non entièrement validées.
-- release.md non encore fourni.
-- Inventaire des composants et licences non encore fourni.
+Non implémentés :
+
+- comptes et sessions ;
+- permissions ;
+- chiffrement des bases et pièces ;
+- gestion des clés ;
+- sauvegarde et restauration ;
+- contrôle des exports ;
+- journal métier ;
+- validation des fichiers utilisateurs.
+
+Aucune donnée professionnelle réelle ne doit être utilisée.
+
+Les documents de sécurité sont des propositions de conception.
+
+Aucune protection absolue n'est promise contre un système compromis,
+un administrateur système ayant accès aux secrets ou la conservation
+d'une ancienne copie hors ligne.
+
+La révocation d'un compte ne permet pas d'effacer immédiatement
+une machine durablement déconnectée.
+
+## Dépendances et licences
+
+Les versions directes sont fixées dans package.json.
+Le lockfile généré doit être conservé.
+
+Les licences déclarées ont été relevées pour les composants directs.
+Leur inventaire formel et l'audit transitif ne sont pas terminés.
+
+npm a rapporté zéro vulnérabilité lors des contrôles transmis.
+Cela ne garantit pas l'absence de vulnérabilités.
+
+AGPL-3.0 reste envisagée.
+Le paquet frontend est provisoirement marqué UNLICENSED.
+
+La politique du nom et du logo, les notices de redistribution
+et la licence définitive restent à formaliser.
 
 ## Points techniques ouverts
 
-- Versions et licences React, Vite, TypeScript et Tauri.
-- Compatibilité des outils frontend installés.
-- Pilote Go et compilation SQLCipher.
-- Bibliothèques PDF et polices.
-- Chiffrement du stockage PostgreSQL.
-- Protection des clés selon le système.
-- Déverrouillage automatique ou manuel.
-- Temporaires, index, caches et journaux.
-- Format de sauvegarde et récupération.
-- Transport sécurisé bureau/moteur.
+- Intégration et compilation Tauri.
+- Rust et dépendances système Windows/Linux.
+- Communication bureau/moteur local.
+- SQLCipher et son pilote Go.
+- Chiffrement PostgreSQL.
+- Protection et récupération des clés.
+- Temporaires, caches, journaux et index.
+- Génération PDF et licences des polices.
 - Compatibilité client/serveur.
 - Tâches, reprises et effets externes.
-- Signature et distribution des mises à jour.
+- Sauvegardes cohérentes et migrations.
+- Signature et installation des mises à jour.
+- Tests navigateur et CI.
 
 ## Points métier ouverts
 
-- Profils d'entreprise et cas effectivement couverts.
-- Précisions décimales et règles d'arrondi.
-- Numérotation et transitions des documents.
-- Cas de TVA, acomptes et avoirs.
-- Périodes, validations et clôtures comptables.
-- Imports historiques et stratégie de reprise.
-- Formats et connecteurs de facturation électronique.
+- Matrice des profils d'entreprise couverts.
+- Décimaux et arrondis.
+- Numérotation et finalisation transactionnelle.
+- TVA, acomptes et avoirs.
+- Validation et clôture comptables.
+- Imports historiques.
+- Facturation électronique.
 - Rattrapage des automatisations.
-- Bascule autonome/serveur.
+- Bascule d'autorité autonome/serveur.
 
-Les règles réglementaires devront être vérifiées lors
-de la conception et de l'implémentation concernées.
+Les règles réglementaires seront vérifiées lors de leur implémentation.
+Aucune conformité n'est annoncée.
 
-## Sécurité et récupération
+## Documentation et suivi
 
-Le chiffrement, la gestion des clés, les comptes, les permissions
-et la récupération ne sont pas implémentés.
+- Nom du cahier des charges dans docs à confirmer.
+- Branche locale et synchronisation distante non vérifiées.
+- Références de commits non transmises.
+- Contrôle détaillé des 62 identifiants non transmis.
+- release.md et inventaire des composants à créer.
+- Manuel d'installation finale non disponible.
 
-Aucune donnée professionnelle réelle ne doit être utilisée
-dans ce socle.
-
-Aucune protection absolue n'est promise contre :
-
-- un système déjà compromis ;
-- un administrateur système ayant accès aux secrets ;
-- la conservation d'une copie hors ligne ;
-- la perte de toutes les clés et installations exploitables.
-
-La révocation d'un compte ne permet pas d'effacer instantanément
-une machine durablement déconnectée.
-
-Une restauration ne doit pas créer implicitement une seconde
-autorité d'émission.
-
-## Plateformes et distribution
-
-Validation rapportée limitée au poste Windows de développement.
-
-Aucun installateur Windows ou paquet Linux n'est disponible.
-Aucun fonctionnement comme service n'est validé.
-
-Windows 10 reste une cible demandée dont le statut est à clarifier
-selon l'édition, sa maintenance et les dépendances retenues.
-
-ARM64 doit être testé séparément.
-Un résultat x64 ne vaut pas validation ARM64.
+Les identifiants métier de FEATURE_MATRIX restent non implémentés :
+les tests de l'écran technique ne constituent pas leur réalisation.
 
 ## Performances
 
-Aucun test de charge n'a été exécuté.
+Aucun test de charge métier.
 
-Proposition de campagne initiale, non encore validée :
+Objectif exploratoire non validé :
 
-- serveur : 4 cœurs, 8 Go de RAM et SSD ;
+- 4 cœurs, 8 Go de RAM, SSD ;
 - 20 sessions actives ;
 - 50 000 contacts ;
 - 100 000 documents ;
-- objectif indicatif de p95 inférieur à 500 ms
-  pour les lectures paginées courantes sur réseau local.
+- p95 inférieur à 500 ms pour certaines lectures paginées sur réseau local.
 
-Avant mesure, définir :
+Matériel, volumes de pièces, scénarios, débit, erreurs et protocole
+devront être définis avant mesure.
 
-- matériel exact ;
-- versions ;
-- données et pièces jointes ;
-- répartition lectures/écritures ;
-- débit et scénario ;
-- état des caches ;
-- durée ;
-- point de mesure ;
-- taux d'erreurs.
+Les temps de compilation et d'exécution des tests ne sont pas
+des mesures de capacité métier.
 
-PDF, transferts et traitements longs nécessiteront leurs propres mesures.
-
-Ces valeurs ne sont ni des garanties, ni des plafonds commerciaux,
-ni des capacités démontrées.
-
-## Licence et publication
-
-AGPL-3.0 reste envisagée, non définitivement adoptée.
-
-Le module actuel n'ajoute aucune dépendance Go externe.
-Cela ne remplace pas l'inventaire des composants distribués
-et de leurs obligations.
-
-La politique de nom et de logo reste à rédiger.
-
-Aucune version publiée ni infrastructure de signature
-n'est créée par les lots actuels.
-
-La mention dev est un identifiant de développement,
-pas une publication stable.
+Aucune capacité illimitée n'est promise.
 
 ## Hors périmètre initial
 
-Ne pas ajouter sans décision explicite :
+Sans décision explicite, ne pas ajouter :
 
-- multi-entreprises dans une installation ;
+- multi-entreprises ;
 - multidevise ;
-- OCR ou recherche plein texte dans les scans ;
+- OCR ou recherche dans les scans ;
 - indemnités kilométriques ;
-- synchronisation bancaire par agrégateur ;
-- rapprochement bancaire automatique ;
+- agrégateur bancaire ;
+- rapprochement automatique ;
 - modules dédiés supplémentaires de grand livre et balance ;
 - application mobile native ;
 - portail public de signature ;
-- compte bancaire ou carte bancaire Factorealm.
+- compte bancaire ou carte Factorealm.
 
-Les devis seront signés à l'extérieur puis réimportés.
-Aucun service de signature certifiée n'est annoncé.
+La signature des devis est réalisée à l'extérieur.
+Aucune signature certifiée n'est annoncée.
 
-## Validations encore absentes
+## Validations professionnelles absentes
 
-- Interface web et parcours navigateur.
-- Intégration bureau.
-- Calculs et règles métier.
-- Autorisations et authentification.
-- Chiffrement et récupération.
-- Migrations.
-- Sauvegarde et restauration.
-- Installateurs et mises à jour.
-- Multiarchitecture.
-- Charge.
 - Revue comptable.
 - Validation FEC.
-- Connecteurs de facturation électronique.
-- Audit de licences.
+- Validation des connecteurs réglementaires.
 - Audit de sécurité.
+- Audit complet de licences.
+- Tests de restauration.
+- Tests d'installateurs et mises à jour.
 
-Mettre à jour cette liste avec des résultats et leur périmètre,
-pas avec des intentions.
+Actualiser ce document avec des résultats vérifiables,
+sans confondre intention et réalisation.

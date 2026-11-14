@@ -5,257 +5,221 @@ Projet initié par Thibstudio24.
 Factorealm vise à devenir un logiciel open source de gestion commerciale
 et de comptabilité pour les entreprises françaises.
 
-Une seule entreprise est gérée par installation.
+Une seule entreprise est prévue par installation.
 
 ## État actuel
 
-Le projet dispose d'un premier socle Go :
+Le projet dispose d'un socle technique comprenant :
 
-- exécutable en ligne de commande ;
-- commandes d'aide et de version ;
-- serveur HTTP technique limité à la boucle locale ;
-- route GET /healthz ;
-- tests automatisés des commandes et du serveur.
+- un exécutable Go ;
+- une API HTTP locale avec une route de santé ;
+- une interface React et TypeScript ;
+- une vérification manuelle de la connexion depuis l'interface ;
+- des tests Go ;
+- 15 tests frontend du module HTTP ;
+- 6 tests frontend du composant React.
 
-La compilation et les vérifications des lots 1.1 et 1.2 ont été déclarées
-réussies par l'utilisateur sur son poste Windows.
+Les tests frontend, la vérification TypeScript et la construction ont réussi
+sur le poste Windows de développement selon les sorties transmises.
 
-La sortie du contrôle HTTP a été transmise et confirme une réponse 200,
-un contenu JSON et la directive Cache-Control: no-store.
+Les vérifications Go et le fonctionnement manuel ont été confirmés
+par l'utilisateur.
 
-Il n'existe pas encore d'interface graphique, de stockage,
-de compte utilisateur ou de fonctionnalité métier.
-
-Ce socle n'est pas une application utilisable en production.
-Ne pas y introduire de données professionnelles réelles.
+Aucune fonctionnalité métier n'est encore implémentée.
+Ce projet n'est pas prêt pour un usage professionnel.
 
 ## Objectifs
 
-- Fonctionner sans abonnement obligatoire.
-- Conserver les données sur les machines ou le VPS de l'entreprise.
-- Ne pas nécessiter de serveur central Factorealm pour le fonctionnement métier.
-- Proposer une interface française, accessible et responsive.
-- Partager le même moteur métier entre les modes d'installation.
-- Ne pas imposer de plafond commercial artificiel.
-- Mesurer les capacités réelles et publier les limites testées.
-- Livrer progressivement des fonctionnalités vérifiables et maintenables.
+- Fonctionnement sans abonnement obligatoire.
+- Données hébergées par l'entreprise sur ses machines ou son VPS.
+- Aucun serveur central Factorealm nécessaire au fonctionnement métier.
+- Interface française, accessible et responsive.
+- Moteur métier partagé entre serveur et autonome.
+- Aucun plafond commercial artificiel.
+- Capacités mesurées et limites publiées.
+- Développement progressif avec vérification de chaque lot.
 
 ## Modes prévus
 
 ### Serveur
 
-Le serveur hébergera les données, comptes, documents, API et interface web.
-Il fonctionnera comme service.
-
-L'installation d'un client sur la même machine sera une option.
+Service hébergeant les comptes, données, documents, API et interface web.
 
 ### Client installé
 
-Le client se connectera au serveur de l'entreprise.
+Application connectée au serveur, avec cache local chiffré
+et travail hors connexion limité au périmètre autorisé.
 
-Son stockage local sera chiffré. Le travail hors connexion sera limité
-aux consultations autorisées et aux brouillons prévus.
-
-La finalisation des factures et l'attribution de numéros définitifs
-seront interdites hors connexion.
+Aucune finalisation de facture hors connexion.
 
 ### Autonome
 
-L'application et ses données seront sur le même ordinateur.
-Le moteur local sera l'autorité de cette installation.
-
-La finalisation locale ne nécessitera pas de connexion Internet.
-Aucun compte en ligne obligatoire n'est prévu.
+Application et moteur local sur une seule machine.
+Finalisation locale possible sans Internet.
 
 ### Navigateur et PWA
 
-L'interface web sera adaptée au mobile.
+Interface responsive, sans travail métier hors connexion.
+Le cache statique devra rester distinct des données métier.
 
-Le travail métier hors connexion n'est pas prévu dans le navigateur
-ou la PWA. Leur cache statique devra être séparé des données métier.
+Ces modes complets ne sont pas encore disponibles.
 
-## Orientation technique
+## Architecture
 
-- Interface envisagée : TypeScript, React et Vite.
-- Moteur et API : Go.
-- Application installée envisagée : Tauri.
-- Rust limité autant que possible à l'intégration système.
-- Stockage serveur envisagé : PostgreSQL.
-- Stockage autonome et client envisagé : SQLCipher.
-- Architecture : monolithe modulaire.
+- Go : moteur et API.
+- React, TypeScript et Vite : interface web.
+- Tauri : intégration bureau envisagée.
+- PostgreSQL : stockage serveur envisagé.
+- SQLCipher : stockage autonome et cache client envisagés.
+- Monolithe modulaire, sans microservices initiaux.
 
-Seul le socle Go est actuellement intégré.
+Tauri, PostgreSQL et SQLCipher ne sont pas encore intégrés.
 
-La compatibilité complète, les compilations natives, le chiffrement
-et les licences des composants futurs restent à vérifier.
+## Environnement validé
 
-## Démarrer le socle technique
-
-### Environnement validé selon le retour utilisateur
+Poste de développement rapporté :
 
 - Windows 11 Professionnel, build 26300.
-- Architecture Go : windows/amd64.
-- Go : 1.27.3.
-- PowerShell : 5.1.
+- Architecture windows/amd64.
+- Go 1.27.3.
+- Node.js 22.23.2.
+- npm 12.2.2.
+- PowerShell 5.1.
 
 Aucune validation Linux, ARM64 ou installation comme service
 n'est encore disponible.
 
-### Module Go
-
-Le module se trouve dans backend.
-
-Il utilise uniquement la bibliothèque standard Go.
-Aucune dépendance Go externe n'a été ajoutée.
+## Démarrer le backend
 
 Depuis la racine du dépôt, dans PowerShell :
 
     Set-Location .\backend
     $env:GOTOOLCHAIN = "local"
     $env:GOPROXY = "off"
-
-Ces variables concernent le terminal courant.
-Elles permettent de travailler avec l'installation Go locale
-sans téléchargement de dépendances pour ce socle.
-
-### Tests
-
-Depuis backend :
-
     go test -count=1 -timeout=30s -v ./...
     go vet ./...
-
-### Compilation
-
-Depuis backend :
-
     New-Item -ItemType Directory -Path .\bin -Force | Out-Null
     go build -trimpath -o .\bin\factorealm.exe ./cmd/factorealm
 
-Arrêter l'exécutable existant avant de le reconstruire.
+Arrêter l'exécutable avant de reconstruire son fichier.
 
-Le dossier backend/bin est ignoré par le fichier backend/.gitignore.
-
-### Commandes disponibles
-
-Depuis backend :
+Commandes disponibles :
 
     .\bin\factorealm.exe help
     .\bin\factorealm.exe version
     .\bin\factorealm.exe serve
 
-La version affichée est Factorealm dev.
-Il ne s'agit pas d'une publication numérotée.
+Le serveur écoute exclusivement sur 127.0.0.1:8080.
+Utiliser Ctrl+C dans son terminal pour l'arrêter.
 
-Une commande inconnue ou des arguments supplémentaires
-produisent un code de sortie 2.
+La commande version affiche Factorealm dev.
+Il ne s'agit pas d'une publication stable.
 
-### API technique locale
+## Démarrer le frontend
 
-La commande serve écoute exclusivement sur 127.0.0.1:8080.
+Dans un second terminal, depuis la racine du dépôt :
 
-Dans un second terminal PowerShell :
+    Set-Location .\frontend
 
-    $response = Invoke-WebRequest -Uri "http://127.0.0.1:8080/healthz" -UseBasicParsing -TimeoutSec 5
-    $response.StatusCode
-    $response.Content
+Si package-lock.json est présent et correspond au package.json :
 
-Résultat attendu :
+    npm.cmd ci --registry=https://registry.npmjs.org/
 
-    200
-    {"status":"ok"}
+Cette installation nécessite l'accès au registre npm et peut exécuter
+des scripts de dépendances. Elle reconstruit node_modules.
 
-La réponse utilise :
+Ne pas supprimer le lockfile pour contourner une erreur.
+Ne pas utiliser de correction forcée sans analyse.
 
-- Content-Type: application/json; charset=utf-8
-- Cache-Control: no-store
-- X-Content-Type-Options: nosniff
+Vérifications :
 
-Seule la méthode GET est acceptée sur /healthz.
-Les autres méthodes reçoivent une réponse 405.
-Les chemins inconnus reçoivent une réponse 404.
+    npm.cmd run typecheck
+    npm.cmd test
+    npm.cmd run build
 
-Pour arrêter le serveur, utiliser Ctrl+C dans son terminal.
+Démarrage de développement :
 
-### Limites du serveur actuel
+    npm.cmd run dev
 
-- Adresse et port fixes.
-- Aucun accès distant prévu.
-- Pas de TLS.
-- Pas d'authentification.
-- Pas de configuration CORS.
-- Pas de stockage ni de données métier.
-- Pas d'installation comme service.
+Adresse à ouvrir dans le navigateur :
 
-La boucle locale n'est pas un mécanisme d'autorisation.
-La route de santé indique uniquement que le processus répond.
+    http://127.0.0.1:5173
+
+L'interface ne vérifie la connexion qu'après un clic sur le bouton.
+Le résultat correspond au dernier contrôle, pas à une surveillance continue.
+
+Le relais vers Go est configuré pour le développement uniquement.
+Le dossier dist ne constitue pas encore une distribution autonome intégrée.
+
+## Tests frontend
+
+Deux fichiers couvrent 21 cas :
+
+- src/health.test.ts : 15 tests de la requête HTTP ;
+- src/App.test.tsx : 6 tests des états et interactions React.
+
+Les tests utilisent des simulations limitées à leur environnement.
+Ils ne nécessitent pas le serveur Go.
+
+Ils ne remplacent pas des tests dans un navigateur réel
+ni un audit d'accessibilité.
+
+## Fichiers générés
+
+À conserver dans Git :
+
+- frontend/package-lock.json.
+
+À ne pas versionner :
+
+- frontend/node_modules ;
+- frontend/dist ;
+- backend/bin.
+
+## Sécurité du prototype
+
+- Aucun stockage métier.
+- Aucun compte, session ou permission.
+- Aucun chiffrement applicatif.
+- Aucune authentification ni TLS.
+- Serveurs de développement limités à la boucle locale.
 
 Ne pas exposer ce prototype sur Internet.
-Ne pas ajouter de route métier sensible sans les protections nécessaires.
+Ne pas utiliser de données professionnelles réelles.
 
-## Sécurité et données
+La boucle locale n'est pas un mécanisme d'autorisation.
+La route de santé indique seulement que le processus HTTP répond.
 
-Exigences futures :
+## Documentation
 
-- chiffrement des bases, pièces jointes et copies locales ;
-- sauvegardes toujours chiffrées ;
-- récupération propre à l'entreprise ;
-- aucune conservation centrale des clés ;
-- contrôles d'autorisation côté moteur/API ;
-- aucune télémétrie imposée ;
-- aucun secret dans le dépôt ;
-- services extérieurs explicitement configurés ;
-- exports soumis à des permissions distinctes.
-
-Ces protections ne sont pas encore implémentées.
-
-## Documents de référence
-
-- docs/PROJECT_STATE.md : état de reprise et vérifications.
-- docs/FEATURE_MATRIX.md : fonctionnalités et tests attendus.
+- docs/PROJECT_STATE.md : reprise, versions et résultats.
+- docs/FEATURE_MATRIX.md : périmètre fonctionnel et tests attendus.
+- docs/KNOWN_LIMITS.md : limites.
 - docs/architecture/0001-initial-architecture.md : architecture initiale.
-- docs/KNOWN_LIMITS.md : limites et points ouverts.
 - docs/security/THREAT_MODEL.md : modèle de menace proposé.
 - docs/security/KEY_MANAGEMENT.md : gestion des clés proposée.
-- docs/operations/BACKUP_RESTORE.md : sauvegarde et restauration proposées.
+- docs/operations/BACKUP_RESTORE.md : récupération proposée.
 
 Le cahier des charges original reste la référence.
 Son nom exact dans docs reste à consigner.
 
-Les identifiants de fonctionnalités sont conservés.
-Les numéros absents ne sont pas réattribués.
-
-## Méthode de développement
-
-Chaque lot précise :
-
-1. son objectif ;
-2. ses prérequis ;
-3. les fichiers et leur contenu complet ;
-4. les commandes éventuelles ;
-5. les critères de réussite ;
-6. les vérifications réellement réalisées ou rapportées ;
-7. les limites et blocages.
-
-La validation d'un lot ne signifie pas que le logiciel est prêt
-pour un usage professionnel.
-
 ## Licence et identité
 
-AGPL-3.0 est la licence envisagée.
-Le choix définitif reste soumis à l'examen des dépendances
-et à la validation du titulaire des droits.
+AGPL-3.0 est envisagée mais pas encore formellement adoptée.
 
-Ce document n'attribue pas à lui seul une licence au code.
-Le fichier de licence et l'inventaire des composants restent à ajouter.
+Le paquet frontend porte provisoirement UNLICENSED.
+Cette situation doit être résolue avant de présenter le code
+comme distribué sous AGPL-3.0.
 
-Thibstudio24 doit être identifié comme auteur initial.
+L'inventaire des composants et l'examen des obligations de redistribution
+restent à terminer.
 
-La licence du code, les mentions d'attribution et la politique
-d'utilisation du nom et du logo seront traitées séparément.
+Thibstudio24 est l'auteur initial.
+Licence du code, attribution et politique du nom et du logo
+seront traitées séparément.
 
 ## Avertissement
 
 Aucune conformité comptable, fiscale ou réglementaire n'est annoncée.
-Les règles métier sensibles devront être examinées par un professionnel
-compétent avant usage professionnel réel.
+Une revue professionnelle des règles sensibles sera nécessaire
+avant usage réel.

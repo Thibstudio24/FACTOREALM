@@ -1,361 +1,334 @@
 # État du projet Factorealm
 
-## Usage
+## Rôle
 
-Ce fichier permet de reprendre le projet dans une nouvelle conversation
-ou avec un autre contributeur.
+Ce document permet de reprendre le travail.
 
-Il distingue :
+Il distingue le code fourni, les résultats transmis,
+les validations rapportées et les travaux encore ouverts.
 
-- décisions et propositions ;
-- code fourni et intégration confirmée ;
-- résultats transmis et réussite simplement rapportée ;
-- protections prévues et protections implémentées.
-
-Il ne remplace pas le cahier des charges original.
+Il ne remplace pas le cahier des charges.
 
 ## Identification
 
-- Projet : Factorealm
-- Auteur initial : Thibstudio24
-- Dépôt déclaré : Thibstudio24/FACTOREALM
-- Branche locale : à confirmer
-- Date de cette mise à jour : 2026-11-14
-- Phase : étape 1, socle compilable
-- Dernier lot applicatif validé par l'utilisateur : 1.2
-- Lot courant : 1.3, synchronisation documentaire
-- Statut du lot courant : fourni, intégration à confirmer
+- Projet : Factorealm.
+- Auteur initial : Thibstudio24.
+- Dépôt déclaré : Thibstudio24/FACTOREALM.
+- Branche locale : à confirmer.
+- Date de mise à jour : 2026-11-14.
+- Phase : étape 1, socle compilable.
+- Dernier lot applicatif validé : 1.6-C.
+- Lot courant : 1.7, suivi documentaire.
+- Intégration du lot courant : à confirmer.
 
-Les dates exactes de réalisation des premiers lots ne sont pas établies.
-Les anciennes dates des 7 et 8 novembre ne doivent pas être utilisées
-comme preuves de réalisation.
+Les dates exactes de réalisation des lots antérieurs ne sont pas établies.
+Les anciennes dates des 7 et 8 novembre ne constituent pas des preuves.
 
-## Sources de référence
+## Références et accès au dépôt
 
-Le cahier des charges complet a été fourni dans la conversation initiale.
-L'utilisateur indique également l'avoir placé dans docs.
+Le cahier des charges complet a été fourni dans la conversation.
+L'utilisateur indique l'avoir également placé dans docs.
 Son nom exact reste à confirmer.
 
-L'utilisateur a confirmé que README.md, PROJECT_STATE.md
-et KNOWN_LIMITS.md correspondent aux dernières versions fournies
-avant ce lot.
+Les fichiers courants proviennent des livraisons de la conversation
+et des confirmations de l'utilisateur.
 
-Les anciennes affirmations de consultation du dépôt n'étaient pas étayées
-dans les échanges concernés. Elles ne constituent pas des vérifications.
-
-Ne pas supposer que le dépôt distant contient les dernières versions locales.
+Ne pas supposer que le dépôt distant est synchronisé.
+Les anciennes affirmations non étayées de consultation du dépôt
+ne sont pas retenues comme vérifications.
 
 ## Environnement rapporté
 
-| Élément | Information | Limites |
-|---|---|---|
-| Windows | Windows 11 Professionnel, 10.0.26300, build 26300 | Poste de développement initial |
-| Architecture Go | windows/amd64 | Sortie de go version transmise |
-| PowerShell | 5.1.26100.9711 | Version du diagnostic |
-| VS Code | Présent | Version non renseignée |
-| Git | 2.54.0.windows.1 | Accessible lors du diagnostic |
-| Go | 1.27.3 | Version exacte transmise |
-| Node.js | 22.23.2 | Pas encore validé pour le frontend |
-| npm | 12.2.2 | Pas encore validé pour le frontend |
-| Visual Studio Build Tools 2022 | 17.14.37806.7 | Composants détaillés non vérifiés |
-| Visual Studio Community 2026 | 18.12.12324.72 | Outils C++ x86/x64 détectés |
-| Rust, Cargo, rustup | Non trouvés dans le PATH | Installation ailleurs non exclue |
-| Client PostgreSQL | Non trouvé dans le PATH | État d'un éventuel serveur inconnu |
-| CMake | Non trouvé dans le PATH | Installation ailleurs non exclue |
-| VM Windows | Réservée aux tests serveur ultérieurs | Version à préciser au moment des essais |
-| VM Linux | Réservée aux tests serveur ultérieurs | Distribution et version à préciser |
-| Expérience utilisateur | Intermédiaire | Aucun complément nécessaire |
+| Composant | Version ou situation |
+|---|---|
+| Windows | Windows 11 Professionnel, 10.0.26300, build 26300 |
+| Architecture Go | windows/amd64 |
+| PowerShell | 5.1.26100.9711 |
+| Go | 1.27.3 |
+| Git | 2.54.0.windows.1 |
+| Node.js | 22.23.2 |
+| npm | 12.2.2 |
+| VS Code | Présent, version non renseignée |
+| Visual Studio Build Tools 2022 | 17.14.37806.7 |
+| Visual Studio Community 2026 | 18.12.12324.72, outils C++ x86/x64 détectés |
+| Rust, Cargo, rustup | Non trouvés dans le PATH lors du diagnostic |
+| PostgreSQL et CMake | Non trouvés dans le PATH lors du diagnostic |
+| VM Windows et Linux | Réservées aux tests serveur ultérieurs |
 
-Sortie transmise :
-
-    go version go1.27.3 windows/amd64
-
-Ces informations ne valident pas la compatibilité de toute la pile.
+Les absences du PATH ne prouvent pas l'absence d'installation.
+Versions et architectures des VM à préciser avant leurs essais.
 
 ## Versions intégrées
 
-- Module Go : github.com/Thibstudio24/FACTOREALM/backend
-- Directive go.mod : go 1.27.3
-- Version Go utilisée chez l'utilisateur : 1.27.3
-- Dépendances Go externes : aucune
-- Bibliothèques utilisées : bibliothèque standard Go
-- Version affichée de l'application : dev
-- Frontend, Tauri, PostgreSQL et SQLCipher : non intégrés
+### Backend
 
-La version installée est consignée sans être qualifiée
-de dernière version disponible.
+- Module : github.com/Thibstudio24/FACTOREALM/backend.
+- Directive Go : 1.27.3.
+- Dépendances externes : aucune.
+- Version affichée : dev.
 
-## Décisions de périmètre
+### Frontend
+
+| Paquet | Version |
+|---|---|
+| react | 19.3.1 |
+| react-dom | 19.3.1 |
+| typescript | 7.0.2 |
+| vite | 8.3.8 |
+| @vitejs/plugin-react | 6.3.0 |
+| @types/node | 22.20.5 |
+| @types/react | 19.3.0 |
+| @types/react-dom | 19.3.0 |
+| vitest | 5.1.0 |
+| @testing-library/react | 16.3.3 |
+| @testing-library/dom | 10.4.2 |
+| jsdom | 31.0.1 |
+
+Versions directes confirmées par npm ls transmis par l'utilisateur.
+
+Le lockfile a été généré et actualisé par npm.
+Son contenu complet n'a pas été examiné dans la conversation.
+Sa présence dans un commit reste à confirmer.
+
+Ces versions ne sont pas qualifiées de dernières versions disponibles.
+
+## Architecture retenue comme orientation
 
 - Une entreprise par installation.
-- Modes serveur, client installé et autonome.
-- Moteur métier commun autant que possible.
-- Interface française, web et bureau.
-- Adaptation mobile via web/PWA, sans application native initiale.
-- Pas de travail métier hors connexion dans la PWA.
-- Pas de finalisation de facture hors connexion dans un client.
-- Finalisation locale autorisée en autonome.
-- Pas de serveur central nécessaire au métier.
-- Pas d'abonnement obligatoire.
-- Chiffrement des données stockées.
-- Sauvegardes toujours chiffrées.
-- Autorisations côté moteur/API.
-- Aucun plafond commercial artificiel.
-- Aucune capacité ou conformité non vérifiée annoncée.
-- Petits lots avec validation intermédiaire.
-- Identifiants fonctionnels d'origine conservés.
-- Données fictives uniquement dans les prototypes.
-
-## Architecture de travail
-
 - Monolithe modulaire.
-- Métier et API en Go.
-- Interface envisagée : TypeScript, React et Vite.
-- Bureau envisagé : Tauri.
-- Rust limité autant que possible à l'intégration système.
+- Go pour le moteur et l'API.
+- React, TypeScript et Vite pour l'interface.
+- Tauri envisagé pour le bureau.
 - PostgreSQL privilégié pour le serveur.
-- SQLCipher envisagé pour l'autonome et le cache client.
+- SQLCipher envisagé pour l'autonome et les copies locales.
 
-La compatibilité complète et les licences restent à examiner.
+Tauri et les stockages ne sont pas intégrés.
+Chiffrement PostgreSQL et gestion des clés restent à décider.
 
-Le chiffrement PostgreSQL, le déverrouillage des clés
-et l'intégration SQLCipher ne sont pas définitivement décidés.
+## Invariants de périmètre
 
-## Invariants à préserver
-
-- Métier indépendant de l'interface.
-- Permissions vérifiées par le moteur/API.
-- Montants en représentation décimale exacte.
-- Identifiants stables pour la synchronisation.
-- Idempotence des opérations rejouables.
+- Pas de serveur central Factorealm nécessaire au métier.
+- Pas d'abonnement obligatoire.
+- Aucun plafond commercial artificiel.
+- Pas de travail métier hors connexion dans la PWA.
+- Pas de finalisation hors connexion dans un client.
+- Finalisation locale possible en autonome.
+- Chiffrement des données stockées et sauvegardes toujours chiffrées.
+- Permissions contrôlées côté moteur/API.
+- Décimaux exacts pour les calculs financiers.
 - Autorité unique pour les documents définitifs.
-- Migrations propres à chaque moteur de stockage.
+- Identifiants stables, versions et idempotence pour la synchronisation.
 - Aucun écrasement silencieux de conflit.
-- Provenance des documents historiques préservée.
-- Boucle locale non assimilée à une authentification.
-- Santé technique non assimilée à une disponibilité métier.
+- Provenance historique conservée.
+- Données fictives uniquement dans les prototypes.
+- Aucune conformité ou performance non démontrée annoncée.
 
-## Documents présents selon les retours
+Ces invariants ne sont pas tous implémentés.
 
-- README.md
-- docs/PROJECT_STATE.md
-- docs/FEATURE_MATRIX.md
-- docs/architecture/0001-initial-architecture.md
-- docs/KNOWN_LIMITS.md
-- docs/security/THREAT_MODEL.md
-- docs/security/KEY_MANAGEMENT.md
-- docs/operations/BACKUP_RESTORE.md
+## Structure applicative actuelle
 
-La présence d'un document ne valide pas toutes ses propositions.
-
-Le contrôle détaillé des 62 identifiants fonctionnels n'a pas été transmis.
-
-Les documents de sécurité restent des spécifications,
-pas une preuve d'implémentation.
-
-## Lot 1.1 — Exécutable minimal
-
-Fichiers fournis :
+Backend :
 
 - backend/.gitignore
 - backend/go.mod
 - backend/cmd/factorealm/main.go
 - backend/cmd/factorealm/main_test.go
+- backend/internal/localapi/server.go
+- backend/internal/localapi/server_test.go
 
-Comportements :
+Frontend :
 
-- aide sans argument ;
-- commandes help, -h et --help ;
-- commande version ;
-- refus des commandes inconnues ;
-- refus des arguments supplémentaires ;
-- gestion d'une erreur d'écriture de la sortie.
+- frontend/.gitignore
+- frontend/package.json
+- frontend/package-lock.json
+- frontend/tsconfig.json
+- frontend/vite.config.ts
+- frontend/index.html
+- frontend/src/main.tsx
+- frontend/src/App.tsx
+- frontend/src/App.test.tsx
+- frontend/src/health.ts
+- frontend/src/health.test.ts
 
-Vérifications déclarées réussies par l'utilisateur :
+Les styles sont encore dans index.html.
 
-- formatage ;
-- go test ;
-- go vet ;
-- compilation Windows ;
-- aide et version ;
-- code 2 pour une commande inconnue.
+## Lots réalisés et preuves
 
-Les journaux détaillés de ces tests n'ont pas été transmis.
+### Lots documentaires initiaux
 
-## Lot 1.2 — API technique locale
+Documents de cadrage, architecture, menaces, clés et restauration fournis.
+Leur présence a été confirmée.
 
-Fichiers concernés :
+Le résultat détaillé du contrôle des 62 identifiants n'a pas été transmis.
+La présence des documents ne vaut pas adoption de chaque proposition.
 
-- backend/cmd/factorealm/main.go, modifié ;
-- backend/internal/localapi/server.go, créé ;
-- backend/internal/localapi/server_test.go, créé.
+### Lot 1.1 — Exécutable Go
 
-Comportements :
+Commandes help et version, erreurs d'arguments et tests.
 
-- commande serve ;
-- écoute fixe sur 127.0.0.1:8080 ;
-- GET /healthz ;
-- refus des méthodes autres que GET sur cette route ;
-- réponse 404 pour les autres chemins ;
-- délais HTTP explicites ;
-- arrêt sur Ctrl+C ;
-- échec explicite si le port est occupé.
+Compilation, tests et go vet déclarés réussis par l'utilisateur.
+Version Go transmise.
 
-Configuration :
+### Lot 1.2 — API locale
 
-- ReadHeaderTimeout : 5 secondes ;
-- ReadTimeout : 10 secondes ;
-- WriteTimeout : 10 secondes ;
-- IdleTimeout : 30 secondes ;
-- délai d'arrêt contrôlé : 5 secondes ;
-- MaxHeaderBytes : 16 * 1024.
+- Commande serve.
+- Écoute sur 127.0.0.1:8080.
+- GET /healthz.
+- Refus des autres méthodes et chemins.
+- Délais HTTP.
+- Arrêt sur Ctrl+C.
+- Tests de route, démarrage, erreurs et arrêt.
 
-Tests fournis :
+Sortie HTTP transmise :
 
-- réponse de santé et en-têtes ;
-- chemin inconnu ;
-- sous-route inconnue ;
-- POST et HEAD refusés ;
-- valeurs de configuration ;
-- contexte annulé avant démarrage ;
-- port occupé ;
-- erreur d'affichage ;
-- cycle démarrage, requête locale et arrêt.
-
-Les tests de cycle de vie utilisent un port local attribué par le système.
-
-## Preuves et validations du lot 1.2
-
-Sortie HTTP transmise par l'utilisateur :
-
-    StatusCode: 200
+    HTTP 200
     Content-Type: application/json; charset=utf-8
     Cache-Control: no-store
-    Corps: {"status":"ok"}
+    {"status":"ok"}
 
-Cette sortie confirme la réponse HTTP correspondante.
+Tests Go, compilation et arrêt déclarés réussis.
+Les sorties détaillées de ces commandes n'ont pas été transmises.
 
-Le reste des vérifications a été déclaré réussi par l'utilisateur
-avec le message « Tout est bon ».
+### Lot 1.3 — Documentation
 
-| Vérification | État |
-|---|---|
-| GET /healthz | Résultat transmis et conforme |
-| Content-Type et Cache-Control | Résultats transmis et conformes |
-| Tests Go du lot 1.2 | Réussite rapportée |
-| go vet | Réussite rapportée |
-| Compilation Windows | Réussite rapportée |
-| Arrêt par Ctrl+C et code de sortie | Réussite rapportée, sans sortie détaillée |
-| Tests exécutés par l'assistant | Aucun |
-| Clients lents et expiration réelle des délais | Non testés |
-| Arrêt avec requêtes longues en cours | Non testé |
-| Tests Linux ou VM | Non réalisés |
-| Tests métier | Non réalisés |
-| Audit de sécurité | Non réalisé |
-| Tests de restauration | Non réalisés |
-| Tests de charge | Non réalisés |
+Documents alignés sur le serveur local.
+Validation rapportée par l'utilisateur.
 
-Une erreur d'écriture est simulée uniquement dans les tests.
-Aucune fonctionnalité métier simulée n'est présentée comme réelle.
+### Lot 1.4 — Métadonnées frontend
 
-## État des étapes
+Versions, contraintes et dépendances facultatives examinées
+à partir des sorties npm view transmises.
 
-- Étape 0 : cadrage engagé, décisions encore ouvertes.
-- Étape 1 : en cours ; lots applicatifs 1.1 et 1.2 validés selon les retours.
-- Étapes suivantes : non commencées.
+Cela ne constitue pas un audit complet des licences.
 
-Aucune étape complète n'est déclarée terminée.
+### Lot 1.5 — Interface technique
+
+- React et TypeScript.
+- Vite sur 127.0.0.1:5173.
+- Relais de développement limité à /healthz vers Go.
+- Vérification manuelle par bouton.
+- Aucun cache métier ni requête automatique à l'ouverture.
+
+Versions, typecheck et construction confirmés par sorties.
+Fonctionnement manuel confirmé par l'utilisateur.
+
+### Lot 1.6-B — Module HTTP
+
+Requête extraite dans health.ts.
+
+15 tests couvrent notamment :
+
+- succès et options de requête ;
+- erreurs HTTP ;
+- contenu et structure incorrects ;
+- erreur réseau et lecture interrompue ;
+- expiration du délai ;
+- nettoyage du minuteur.
+
+Sortie transmise : 15 tests réussis.
+Typecheck et construction réussis.
+
+### Lot 1.6-C — Composant React
+
+Composant App séparé du point de démarrage.
+
+6 tests couvrent :
+
+- état initial sans requête ;
+- bouton désactivé pendant l'attente ;
+- succès ;
+- remplacement du succès par une indisponibilité ;
+- réponse inattendue ;
+- nouvelle tentative après erreur interne.
+
+Sortie transmise :
+
+    Test Files: 2 passed
+    Tests: 21 passed
+
+Typecheck et construction réussis.
+Fonctionnement manuel confirmé par l'utilisateur.
+
+Les simulations sont limitées aux tests.
+L'application utilise une véritable requête HTTP.
+
+### Lot 1.7 — Suivi documentaire
+
+README, PROJECT_STATE et KNOWN_LIMITS actualisés.
+Aucun changement du code.
+Intégration et validation : en attente.
+
+## Portée des vérifications
+
+Les commandes et tests ont été exécutés chez l'utilisateur.
+Aucun test n'a été exécuté par l'assistant.
+
+Les tests React utilisent jsdom, pas un navigateur réel.
+La chaîne navigateur/Vite/Go a été vérifiée manuellement.
+
+npm a rapporté zéro vulnérabilité lors des installations transmises.
+Ce constat est limité à ces contrôles et ne constitue pas un audit global.
+
+Aucun test Linux, ARM64, restauration ou charge n'est réalisé.
 
 ## Limites actuelles
 
-- Pas d'interface graphique.
-- Pas d'intégration bureau.
-- Pas d'API métier.
-- Pas de base de données.
-- Pas de chiffrement applicatif.
-- Pas de comptes, sessions ou permissions.
-- Pas de TLS ou configuration CORS.
-- Pas de sauvegarde ou restauration.
-- Pas de synchronisation.
-- Pas d'installateur ou service système.
-- Pas de validation Linux ou ARM64.
-- Pas de conformité réglementaire annoncée.
-- Audit des licences incomplet.
+- Aucun métier, stockage, compte ou permission.
+- Aucun chiffrement applicatif.
+- Aucun TLS.
+- Aucun service système.
+- Aucune intégration Tauri.
+- Aucune distribution intégrée du frontend construit.
+- Aucune synchronisation.
+- Aucun installateur ou mécanisme de mise à jour.
+- Pas de tests automatisés dans un vrai navigateur.
+- Pas d'audit d'accessibilité.
+- Pas de validation comptable ou réglementaire.
 
-Le serveur technique ne doit pas être exposé sur Internet
-ou enrichi de données sensibles avant les protections nécessaires.
+La santé technique ne prouve pas une disponibilité métier.
+La boucle locale ne remplace pas l'authentification.
 
-AGPL-3.0 reste envisagée, non finalisée.
+## Licence et publications
 
-## Lot 1.3 — Synchronisation documentaire
+AGPL-3.0 envisagée, non formellement adoptée.
+Le frontend indique provisoirement UNLICENSED.
 
-Fichiers fournis à jour :
+Inventaire des composants, licences transitives et notices à compléter.
+release.md reste à créer sans inventer de publication.
 
-- README.md ;
-- docs/PROJECT_STATE.md ;
-- docs/KNOWN_LIMITS.md.
+Aucune référence de commit n'a été transmise.
 
-Ce lot ne modifie pas le programme.
+## Priorités suivantes
 
-Intégration et relecture par l'utilisateur : à confirmer.
-Commit : non confirmé.
+1. Valider ce lot documentaire.
+2. Formaliser l'inventaire des composants directs et les licences déclarées.
+3. Ajouter release.md avec une section non publiée.
+4. Préparer un essai limité d'intégration bureau.
+5. Vérifier Rust, Tauri, les prérequis Windows et leurs licences.
+6. Éprouver tôt la compilation native et SQLCipher.
+7. Finaliser la stratégie des clés avant toute donnée sensible.
+8. Ajouter ultérieurement les tests navigateur et la CI.
 
-## Points à résoudre avant données sensibles
+Ne pas multiplier les raffinements de l'écran de santé.
+Le prochain jalon technique doit réduire les risques du mode bureau
+et du stockage local.
 
-- Valider le modèle de menace.
-- Choisir la gestion des clés et le déverrouillage.
-- Décider du chiffrement du stockage serveur.
-- Éprouver SQLCipher et ses dépendances.
-- Mettre en place les autorisations nécessaires.
-- Prévoir des sauvegardes cohérentes.
-- Tester la récupération sur une autre machine.
-- Examiner temporaires, caches, journaux et exports.
+Les comptes, sauvegardes et migrations devront être introduits
+avant tout usage avec des données sensibles.
 
-Ces points n'empêchent pas une interface technique sans données métier.
-Ils empêchent de présenter le prototype comme un logiciel professionnel sécurisé.
-
-## Prochaines actions
-
-1. Intégrer et relire le lot 1.3.
-2. Vérifier les versions et contraintes de la pile frontend.
-3. Vérifier les licences des composants frontend retenus.
-4. Proposer un petit lot d'interface technique sans données métier.
-5. Définir son accès à l'API sans élargir inutilement l'exposition réseau.
-6. Maintenir les tests Go existants.
-7. Poursuivre le cadrage sécurité et les essais de stockage.
-8. Consigner le nom exact du cahier des charges dans docs.
-9. Ajouter release.md et l'inventaire des composants sans inventer de publication.
-
-Ne pas commencer automatiquement le lot suivant.
-
-## Commits
-
-Messages proposés pour les lots applicatifs :
-
-    feat: add minimal Go executable with command tests
-    feat: add loopback health API with lifecycle tests
-
-Message proposé pour le lot courant :
-
-    docs: align project documentation with validated local API
-
-Aucune création de commit ni référence de commit n'est confirmée.
-
-## Procédure de reprise
+## Reprise du travail
 
 Fournir :
 
 - cahier des charges original ;
 - ce fichier ;
-- matrice des fonctionnalités ;
-- limites connues ;
-- décisions d'architecture concernées ;
+- matrice fonctionnelle et limites connues ;
+- décisions concernées ;
 - fichiers actuels à modifier ;
-- derniers résultats de vérification disponibles.
+- résultats récents.
 
-Ne jamais transmettre de secrets ou de données personnelles réelles.
+Ne pas transmettre de secrets ou données personnelles réelles.
+Ne pas supposer que le dépôt distant correspond au travail local.
 
-Ne pas supposer que les fichiers distants correspondent aux fichiers locaux.
-
-Après chaque lot, consigner les versions, résultats, limites et prochaines
-actions sans transformer un résultat attendu en résultat constaté.
+Après chaque lot, consigner versions, preuves, limites et prochaines actions.
+Ne jamais transformer un résultat attendu en résultat constaté.
