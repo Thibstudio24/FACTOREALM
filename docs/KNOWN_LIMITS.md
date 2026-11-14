@@ -2,80 +2,170 @@
 
 ## Statut général
 
-Le projet est au stade documentaire.
+Factorealm dispose d'un socle technique Go, pas d'une application métier.
 
-Aucune fonctionnalité applicative n'est implémentée dans les lots fournis.
-Aucune installation n'est présentée comme utilisable en production.
+Les lots 1.1 et 1.2 ont été validés selon les retours de l'utilisateur
+sur son poste Windows.
 
-## Limites constatées du cadrage
+Aucune aptitude à la production n'est annoncée.
 
-| Point | Situation | Action attendue |
-|---|---|---|
-| Cahier des charges dans le dépôt | Nom exact non confirmé | Identifier et préserver le fichier original |
-| Contenu du dossier docs | Consultation distante non aboutie | Vérifier localement avant toute création |
-| Modifications locales | Inconnues | Ne pas écraser de fichier divergent |
-| Windows principal | Version et architecture inconnues | Compléter l'environnement |
-| VM Linux | Distribution et version inconnues | Définir une cible initiale |
-| VM Windows | Version inconnue | Définir une cible initiale |
-| Outils | Installations et versions non vérifiées | Contrôle guidé avant le code |
+## Ce qui existe
+
+- Exécutable Go.
+- Aide et version de développement.
+- Refus des commandes invalides.
+- Serveur local démarré par la commande serve.
+- Route GET /healthz.
+- Délais HTTP explicites.
+- Arrêt contrôlé sur Ctrl+C.
+- Tests automatisés des commandes et du serveur.
+
+Le retour HTTP transmis confirme :
+
+- statut 200 ;
+- contenu JSON ;
+- directive Cache-Control: no-store ;
+- corps {"status":"ok"}.
+
+Les sorties détaillées de go test, go vet et de compilation
+n'ont pas été transmises. Leur réussite a été rapportée.
+
+## Limites du serveur technique
+
+- Écoute fixe sur 127.0.0.1:8080.
+- Pas d'accès distant prévu.
+- Pas de configuration de port via la commande.
+- Pas de TLS.
+- Pas d'authentification.
+- Pas de sessions ni de permissions.
+- Pas de configuration CORS.
+- Pas de base de données.
+- Pas de données ou de routes métier.
+- Pas d'installation comme service.
+
+La boucle locale n'est pas une frontière d'autorisation suffisante
+pour les futures opérations sensibles.
+
+La route de santé vérifie seulement que le processus HTTP répond.
+Elle ne vérifie ni stockage, ni chiffrement, ni sauvegarde.
+
+Ne pas exposer ce prototype sur Internet.
+
+## Limites des tests actuels
+
+Les tests couvrent notamment :
+
+- commandes et erreurs d'arguments ;
+- réponses HTTP ;
+- configuration des délais ;
+- port déjà occupé ;
+- contexte annulé avant démarrage ;
+- panne d'écriture simulée ;
+- cycle de vie avec requête HTTP locale.
+
+Ne sont pas encore testés :
+
+- clients lents et expiration réelle des délais ;
+- arrêt avec requêtes longues en cours ;
+- comportement prolongé sous charge ;
+- installation comme service ;
+- versions différentes de Windows ;
+- Linux et ARM64 ;
+- sécurité métier ou réglementaire.
+
+Le test de configuration des délais ne prouve pas leur comportement
+dans toutes les conditions réseau.
+
+## Environnement
+
+Environnement rapporté :
+
+- Windows 11 Professionnel, build 26300 ;
+- Go 1.27.3, windows/amd64 ;
+- PowerShell 5.1.
+
+Les VM Windows et Linux sont réservées à des tests ultérieurs.
+
+La compatibilité de Node.js et npm avec la future pile frontend
+n'a pas encore été vérifiée.
+
+Rust, Cargo, PostgreSQL et CMake n'étaient pas trouvés dans le PATH
+lors du diagnostic. Cela ne prouve pas leur absence de la machine.
+
+## Documentation et dépôt
+
+- Nom exact du cahier des charges dans docs à confirmer.
+- Branche locale à confirmer.
+- Synchronisation du dépôt distant non vérifiée.
+- Références de commits non transmises.
+- Résultat détaillé du contrôle des 62 identifiants non transmis.
+- Documents de sécurité présents, mais propositions non entièrement validées.
+- release.md non encore fourni.
+- Inventaire des composants et licences non encore fourni.
 
 ## Points techniques ouverts
 
-- Versions exactes de Go, Node.js, React, Vite, Tauri et Rust.
-- Pilote Go et chaîne de compilation SQLCipher.
-- Bibliothèques PDF, polices et licences associées.
+- Versions et licences React, Vite, TypeScript et Tauri.
+- Compatibilité des outils frontend installés.
+- Pilote Go et compilation SQLCipher.
+- Bibliothèques PDF et polices.
 - Chiffrement du stockage PostgreSQL.
-- Stockage des clés selon le système.
+- Protection des clés selon le système.
 - Déverrouillage automatique ou manuel.
-- Chiffrement des temporaires, index, caches et journaux.
-- Format de sauvegarde et procédure de récupération.
-- Transport sécurisé entre application bureau et moteur local.
-- Politique de compatibilité client/serveur.
-- Modèle de tâches, reprises et effets externes.
+- Temporaires, index, caches et journaux.
+- Format de sauvegarde et récupération.
+- Transport sécurisé bureau/moteur.
+- Compatibilité client/serveur.
+- Tâches, reprises et effets externes.
 - Signature et distribution des mises à jour.
 
 ## Points métier ouverts
 
-- Matrice des profils d'entreprise et cas effectivement couverts.
+- Profils d'entreprise et cas effectivement couverts.
 - Précisions décimales et règles d'arrondi.
-- Séries de numérotation et transitions des documents.
+- Numérotation et transitions des documents.
 - Cas de TVA, acomptes et avoirs.
 - Périodes, validations et clôtures comptables.
-- Règles d'import historique et stratégie d'annulation.
-- Formats de facturation électronique et connecteurs retenus.
-- Politique de rattrapage des automatisations.
-- Protocole de bascule autonome/serveur.
+- Imports historiques et stratégie de reprise.
+- Formats et connecteurs de facturation électronique.
+- Rattrapage des automatisations.
+- Bascule autonome/serveur.
 
-Les obligations réglementaires devront être vérifiées au moment
+Les règles réglementaires devront être vérifiées lors
 de la conception et de l'implémentation concernées.
 
-## Sécurité
+## Sécurité et récupération
 
-Le modèle de menace et la stratégie de chiffrement ne sont pas finalisés.
+Le chiffrement, la gestion des clés, les comptes, les permissions
+et la récupération ne sont pas implémentés.
 
-Ne pas utiliser de données réelles dans les premiers prototypes.
+Aucune donnée professionnelle réelle ne doit être utilisée
+dans ce socle.
 
 Aucune protection absolue n'est promise contre :
 
 - un système déjà compromis ;
-- un administrateur système disposant d'un accès effectif aux secrets ;
-- la conservation d'une ancienne copie hors ligne ;
-- la perte de toutes les clés et de toute installation exploitable.
+- un administrateur système ayant accès aux secrets ;
+- la conservation d'une copie hors ligne ;
+- la perte de toutes les clés et installations exploitables.
 
-Une révocation de compte ne permet pas d'effacer instantanément
+La révocation d'un compte ne permet pas d'effacer instantanément
 une machine durablement déconnectée.
 
-## Plateformes
+Une restauration ne doit pas créer implicitement une seconde
+autorité d'émission.
 
-Aucune plateforme n'a fait l'objet d'une compilation ou d'un test
-dans le cadre des lots fournis.
+## Plateformes et distribution
+
+Validation rapportée limitée au poste Windows de développement.
 
 Aucun installateur Windows ou paquet Linux n'est disponible.
+Aucun fonctionnement comme service n'est validé.
 
-Le support de Windows 10 reste à clarifier selon l'édition,
-sa maintenance et les dépendances retenues.
+Windows 10 reste une cible demandée dont le statut est à clarifier
+selon l'édition, sa maintenance et les dépendances retenues.
 
-ARM64 doit être validé séparément.
+ARM64 doit être testé séparément.
 Un résultat x64 ne vaut pas validation ARM64.
 
 ## Performances
@@ -84,42 +174,45 @@ Aucun test de charge n'a été exécuté.
 
 Proposition de campagne initiale, non encore validée :
 
-- serveur de référence : 4 cœurs, 8 Go de RAM, SSD ;
+- serveur : 4 cœurs, 8 Go de RAM et SSD ;
 - 20 sessions actives ;
 - 50 000 contacts ;
 - 100 000 documents ;
-- objectif indicatif : p95 inférieur à 500 ms pour des lectures
-  paginées courantes sur réseau local.
+- objectif indicatif de p95 inférieur à 500 ms
+  pour les lectures paginées courantes sur réseau local.
 
-Avant mesure, préciser :
+Avant mesure, définir :
 
-- processeur et stockage exacts ;
-- versions système et base ;
-- volumétrie et taille des pièces jointes ;
-- répartition des lectures et écritures ;
-- débit de requêtes et scénario utilisateur ;
+- matériel exact ;
+- versions ;
+- données et pièces jointes ;
+- répartition lectures/écritures ;
+- débit et scénario ;
 - état des caches ;
-- durée de la campagne ;
-- point de mesure et taux d'erreurs.
+- durée ;
+- point de mesure ;
+- taux d'erreurs.
 
-Le PDF, les transferts de fichiers et les traitements longs
-auront leurs propres mesures.
+PDF, transferts et traitements longs nécessiteront leurs propres mesures.
 
 Ces valeurs ne sont ni des garanties, ni des plafonds commerciaux,
 ni des capacités démontrées.
 
 ## Licence et publication
 
-AGPL-3.0 est envisagée mais non définitivement adoptée.
+AGPL-3.0 reste envisagée, non définitivement adoptée.
 
-L'audit des dépendances et l'inventaire des composants restent à réaliser.
-La politique de nom et de logo n'est pas rédigée.
+Le module actuel n'ajoute aucune dépendance Go externe.
+Cela ne remplace pas l'inventaire des composants distribués
+et de leurs obligations.
 
-Aucune version publiée, signature de publication ou clé de signature
-n'est créée par ce lot.
+La politique de nom et de logo reste à rédiger.
 
-Le fichier release.md sera ajouté dans un lot documentaire ultérieur,
-sans inventer de version livrée.
+Aucune version publiée ni infrastructure de signature
+n'est créée par les lots actuels.
+
+La mention dev est un identifiant de développement,
+pas une publication stable.
 
 ## Hors périmètre initial
 
@@ -136,25 +229,26 @@ Ne pas ajouter sans décision explicite :
 - portail public de signature ;
 - compte bancaire ou carte bancaire Factorealm.
 
-Les devis signés sont signés à l'extérieur puis réimportés.
+Les devis seront signés à l'extérieur puis réimportés.
 Aucun service de signature certifiée n'est annoncé.
 
-## Validations absentes
+## Validations encore absentes
 
-- Compilation et tests unitaires.
-- Parcours web et bureau.
-- Tests d'autorisation.
-- Tests de chiffrement et récupération.
-- Tests de migrations.
-- Tests de sauvegarde et restauration.
-- Tests d'installateurs et mises à jour.
-- Tests multiarchitecture.
-- Tests de charge.
+- Interface web et parcours navigateur.
+- Intégration bureau.
+- Calculs et règles métier.
+- Autorisations et authentification.
+- Chiffrement et récupération.
+- Migrations.
+- Sauvegarde et restauration.
+- Installateurs et mises à jour.
+- Multiarchitecture.
+- Charge.
 - Revue comptable.
 - Validation FEC.
-- Validation des connecteurs de facturation électronique.
+- Connecteurs de facturation électronique.
 - Audit de licences.
 - Audit de sécurité.
 
-Cette liste doit être mise à jour avec des preuves,
+Mettre à jour cette liste avec des résultats et leur périmètre,
 pas avec des intentions.
